@@ -7,7 +7,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/soundadam/teaway/internal/duration"
+	"github.com/soundadam/tea/internal/duration"
 )
 
 func TestShutdownStepsAreInBounds(t *testing.T) {

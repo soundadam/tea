@@ -6,15 +6,15 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/soundadam/teaway/internal/app"
-	"github.com/soundadam/teaway/internal/teaerr"
-	"github.com/soundadam/teaway/internal/tui"
-	"github.com/soundadam/teaway/internal/version"
+	"github.com/soundadam/tea/internal/app"
+	"github.com/soundadam/tea/internal/teaerr"
+	"github.com/soundadam/tea/internal/tui"
+	"github.com/soundadam/tea/internal/version"
 )
 
 func NewRoot() *cobra.Command {
 	root := &cobra.Command{
-		Use:           "teaway",
+		Use:           "tea",
 		Short:         "Keep this Mac awake, then restore its previous sleep setting when you're done.",
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -73,7 +73,7 @@ func onCmd() *cobra.Command {
 }
 
 func offCmd() *cobra.Command {
-	return &cobra.Command{Use: "off", Short: "Restore the sleep setting teaway owns", Args: cobra.NoArgs, RunE: withApp(func(a app.App, _ []string) error { return a.Off() })}
+	return &cobra.Command{Use: "off", Short: "Restore the sleep setting tea owns", Args: cobra.NoArgs, RunE: withApp(func(a app.App, _ []string) error { return a.Off() })}
 }
 
 func statusCmd() *cobra.Command {
@@ -85,27 +85,27 @@ func tuiCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:        "tui",
 		Aliases:    []string{"interactive"},
-		Short:      "Open the Teaway client",
+		Short:      "Open the tea client",
 		Hidden:     true,
-		Deprecated: "run teaway with no arguments",
+		Deprecated: "run tea with no arguments",
 		Args:       cobra.NoArgs,
 		RunE:       run,
 	}
 }
 
 func versionCmd() *cobra.Command {
-	return &cobra.Command{Use: "version", Short: "Print the teaway version", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Fprintf(cmd.OutOrStdout(), "teaway %s\n", version.Current)
+	return &cobra.Command{Use: "version", Short: "Print the tea version", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+		fmt.Fprintf(cmd.OutOrStdout(), "tea %s\n", version.Current)
 		return nil
 	}}
 }
 
 func shutdownCmd() *cobra.Command {
-	cmd := &cobra.Command{Use: "shutdown", Short: "Schedule or cancel one teaway-owned shutdown"}
+	cmd := &cobra.Command{Use: "shutdown", Short: "Schedule or cancel one tea-owned shutdown"}
 	cmd.AddCommand(
 		&cobra.Command{Use: "after DURATION", Short: "Schedule a shutdown after a duration such as 30m or 2h", Args: cobra.ExactArgs(1), RunE: withApp(func(a app.App, args []string) error { return a.ShutdownAfter(args[0]) })},
-		&cobra.Command{Use: "status", Short: "Show the teaway-owned shutdown", Args: cobra.NoArgs, RunE: withApp(func(a app.App, _ []string) error { return a.ShutdownStatus() })},
-		&cobra.Command{Use: "cancel [ACTION_ID]", Short: "Cancel the teaway-owned shutdown", Args: cobra.MaximumNArgs(1), RunE: withApp(func(a app.App, args []string) error {
+		&cobra.Command{Use: "status", Short: "Show the tea-owned shutdown", Args: cobra.NoArgs, RunE: withApp(func(a app.App, _ []string) error { return a.ShutdownStatus() })},
+		&cobra.Command{Use: "cancel [ACTION_ID]", Short: "Cancel the tea-owned shutdown", Args: cobra.MaximumNArgs(1), RunE: withApp(func(a app.App, args []string) error {
 			id := ""
 			if len(args) == 1 {
 				id = args[0]

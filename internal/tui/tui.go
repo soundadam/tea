@@ -14,11 +14,11 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/soundadam/teaway/internal/app"
-	"github.com/soundadam/teaway/internal/power"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/shutdown"
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/app"
+	"github.com/soundadam/tea/internal/power"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/shutdown"
+	"github.com/soundadam/tea/internal/teaerr"
 )
 
 func Run(application app.App) error {
@@ -98,7 +98,7 @@ func newMenuForm(powerStatus power.Status, shutdownStatus shutdown.Status, auth 
 	return huh.NewForm(
 		huh.NewGroup(
 			huh.NewNote().
-				Title("Teaway").
+				Title("Tea").
 				Description(statusDescription(powerStatus, shutdownStatus, loc)),
 			huh.NewSelect[string]().
 				Options(menuOptions(shutdownStatus.Record != nil, auth)...).
@@ -135,7 +135,7 @@ func maybeSetupPasswordless(application app.App, auth privilege.AuthStatus) (abo
 	}
 	setup := true
 	affirmative := "Set up"
-	description := "macOS will ask. Teaway never sees it."
+	description := "macOS will ask. Tea never sees it."
 	if auth == privilege.AuthNeedsRepair {
 		affirmative = "Repair"
 		description = "The helper is stale. macOS will ask once."
@@ -171,7 +171,7 @@ func repairPermission(application app.App, typed *teaerr.Error) error {
 				Description(typed.Message),
 			huh.NewConfirm().
 				Title("Fix ownership?").
-				Description("Uses sudo. Don't run teaway with sudo afterward.").
+				Description("Uses sudo. Don't run tea with sudo afterward.").
 				Value(&fix),
 		),
 	)

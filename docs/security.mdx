@@ -1,9 +1,9 @@
 ---
 title: "Security"
-description: "What teaway can do on your Mac, and how to report a problem."
+description: "What tea can do on your Mac, and how to report a problem."
 ---
 
-teaway never reads your password. When macOS asks, that prompt belongs to macOS.
+tea never reads your password. When macOS asks, that prompt belongs to macOS.
 
 There is no daemon, listener, account, or telemetry. Privileged work is a fixed `/usr/bin/pmset` call.
 
@@ -11,10 +11,10 @@ There is no daemon, listener, account, or telemetry. Privileged work is a fixed 
 
 The client can install a root-owned helper for this account only:
 
-- `/Library/PrivilegedHelperTools/com.soundadam.teaway.helper.<uid>`
-- `/etc/sudoers.d/soundadam-teaway-<uid>`
+- `/Library/PrivilegedHelperTools/com.soundadam.tea.helper.<uid>`
+- `/etc/sudoers.d/soundadam-tea-<uid>`
 
-That rule covers `disablesleep` `0`/`1`, one teaway shutdown, and cancelling that event. Not a shell. Not arbitrary `pmset`.
+That rule covers `disablesleep` `0`/`1`, one tea shutdown, and cancelling that event. Not a shell. Not arbitrary `pmset`.
 
 <Warning>
   Any process running as your user can then perform those operations. Skip this on a shared account.
@@ -26,4 +26,4 @@ Homebrew builds from the GitHub source tag.
 
 ## Report a vulnerability
 
-Use GitHub's **Report a vulnerability** form. Don't file a public issue. Details: [SECURITY.md](https://github.com/soundadam/teaway/blob/main/SECURITY.md).
+Use GitHub's **Report a vulnerability** form. Don't file a public issue. Details: [SECURITY.md](https://github.com/soundadam/tea/blob/main/SECURITY.md).

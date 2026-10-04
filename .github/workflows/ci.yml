@@ -79,17 +79,17 @@ jobs:
       - name: Build release executable
         run: |
           mkdir -p dist
-          go build -o dist/teaway .
+          go build -o dist/tea .
 
       - name: Smoke-test release executable
         run: |
           set -euo pipefail
           source_version=$(awk -F'"' '/^const Current = / {print $2}' internal/version/version.go)
-          actual_version=$(./dist/teaway version)
-          test "$actual_version" = "teaway $source_version"
+          actual_version=$(./dist/tea version)
+          test "$actual_version" = "tea $source_version"
 
           set +e
-          helper_error=$(./dist/teaway __teaway_privileged version 2>&1)
+          helper_error=$(./dist/tea __tea_privileged version 2>&1)
           helper_status=$?
           set -e
           test "$helper_status" -eq 77

@@ -8,7 +8,7 @@ import (
 func TestPreviewMenuLooksLikeTheClient(t *testing.T) {
 	view := PreviewMenu()
 	for _, want := range []string{
-		"Teaway",
+		"Tea",
 		"Sleep allowed",
 		"Stay awake",
 		"Shut down later",

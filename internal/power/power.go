@@ -4,10 +4,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/soundadam/teaway/internal/execx"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/state"
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/execx"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/state"
+	"github.com/soundadam/tea/internal/teaerr"
 )
 
 type Observation string
@@ -86,7 +86,7 @@ func (s Service) On() (state.PowerRecord, error) {
 				record = updated
 				return err
 			case state.PowerRestoring:
-				return teaerr.PowerRecovery("run 'teaway off' to finish the interrupted restore before enabling again")
+				return teaerr.PowerRecovery("run 'tea off' to finish the interrupted restore before enabling again")
 			}
 		}
 		rec := state.PowerRecord{
@@ -265,10 +265,10 @@ func (s Service) saveRecover(st state.File, detail string) error {
 
 func validate(rec state.PowerRecord) error {
 	if rec.OriginalDisableSleep != 0 && rec.OriginalDisableSleep != 1 {
-		return teaerr.PowerUnreadable("the saved teaway power record contains unsupported values")
+		return teaerr.PowerUnreadable("the saved tea power record contains unsupported values")
 	}
 	if rec.ExpectedDisableSleep != 1 {
-		return teaerr.PowerUnreadable("the saved teaway power record contains unsupported values")
+		return teaerr.PowerUnreadable("the saved tea power record contains unsupported values")
 	}
 	return nil
 }

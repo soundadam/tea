@@ -1,4 +1,4 @@
-# Contributing to teaway
+# Contributing to tea
 
 Contributions should preserve the project's narrow boundary: reversible macOS
 power control, exact shutdown ownership, and no hidden control plane.
@@ -8,11 +8,11 @@ power control, exact shutdown ownership, and no hidden control plane.
 Requirements are macOS 13 or later and Go 1.24 or later.
 
 ```sh
-git clone https://github.com/soundadam/teaway.git
-cd teaway
+git clone https://github.com/soundadam/tea.git
+cd tea
 go test ./...
-go build -o teaway .
-./teaway version
+go build -o tea .
+./tea version
 ```
 
 ## Safety rules
@@ -42,10 +42,10 @@ Before opening a pull request:
 ```sh
 git diff --check
 go test ./...
-go build -o teaway .
-./teaway version
+go build -o tea .
+./tea version
 ```
 
 Hardware acceptance must be deliberate, reversible, and end with
-`disablesleep=0` and no `teaway` shutdown event. Prefer AC power for long
+`disablesleep=0` and no `tea` shutdown event. Prefer AC power for long
 hardware runs so the battery cannot drain mid-test.

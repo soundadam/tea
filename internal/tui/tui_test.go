@@ -7,10 +7,10 @@ import (
 
 	"github.com/charmbracelet/huh"
 
-	"github.com/soundadam/teaway/internal/power"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/shutdown"
-	"github.com/soundadam/teaway/internal/state"
+	"github.com/soundadam/tea/internal/power"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/shutdown"
+	"github.com/soundadam/tea/internal/state"
 )
 
 func TestStatusDescriptionIsSituational(t *testing.T) {

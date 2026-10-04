@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/teaerr"
 )
 
 var pattern = regexp.MustCompile(`^([1-9][0-9]*)([smhd])$`)

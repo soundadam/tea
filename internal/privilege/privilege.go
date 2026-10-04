@@ -10,16 +10,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/soundadam/teaway/internal/execx"
-	"github.com/soundadam/teaway/internal/teaerr"
-	"github.com/soundadam/teaway/internal/version"
+	"github.com/soundadam/tea/internal/execx"
+	"github.com/soundadam/tea/internal/teaerr"
+	"github.com/soundadam/tea/internal/version"
 )
 
 const (
-	InternalCommand = "__teaway_privileged"
+	InternalCommand = "__tea_privileged"
 	HelperDir       = "/Library/PrivilegedHelperTools"
 	SudoersDir      = "/etc/sudoers.d"
-	HelperName      = "teaway-privileged-helper"
+	HelperName      = "tea-privileged-helper"
 	cmdSet          = "set-disablesleep"
 	cmdSchedule     = "schedule-shutdown"
 	cmdCancel       = "cancel-shutdown"
@@ -71,15 +71,15 @@ func (o Operation) pmsetArgs() []string {
 }
 
 func HelperPath(uid int) string {
-	return filepath.Join(HelperDir, fmt.Sprintf("com.soundadam.teaway.helper.%d", uid))
+	return filepath.Join(HelperDir, fmt.Sprintf("com.soundadam.tea.helper.%d", uid))
 }
 
 func SudoersPath(uid int) string {
-	return filepath.Join(SudoersDir, fmt.Sprintf("soundadam-teaway-%d", uid))
+	return filepath.Join(SudoersDir, fmt.Sprintf("soundadam-tea-%d", uid))
 }
 
 func LegacySudoersPath(uid int) string {
-	return filepath.Join(SudoersDir, fmt.Sprintf("com.soundadam.teaway.%d", uid))
+	return filepath.Join(SudoersDir, fmt.Sprintf("com.soundadam.tea.%d", uid))
 }
 
 type Executor struct {
@@ -165,7 +165,7 @@ func validDate(value string) bool {
 }
 
 func validOwner(value string, allowLegacy bool) bool {
-	prefixes := []string{"teaway:"}
+	prefixes := []string{"tea:"}
 	if allowLegacy {
 		prefixes = append(prefixes, "tea-away:")
 	}
@@ -190,12 +190,12 @@ func validOwner(value string, allowLegacy bool) bool {
 
 func RunHelper(args []string) int {
 	if os.Geteuid() != 0 {
-		fmt.Fprintln(os.Stderr, "teaway: teaway privileged helper must run as root")
+		fmt.Fprintln(os.Stderr, "tea: tea privileged helper must run as root")
 		return 77
 	}
 	kind, op, ok := ParseRequest(args)
 	if !ok {
-		fmt.Fprintln(os.Stderr, "teaway: invalid teaway privileged helper request")
+		fmt.Fprintln(os.Stderr, "tea: invalid tea privileged helper request")
 		return 64
 	}
 	switch kind {
@@ -208,7 +208,7 @@ func RunHelper(args []string) int {
 	default:
 		result, err := (execx.System{}).Run(execx.Command{Path: execx.Pmset, Args: op.pmsetArgs()})
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "teaway:", err)
+			fmt.Fprintln(os.Stderr, "tea:", err)
 			return 1
 		}
 		fmt.Fprint(os.Stdout, result.Stdout)
@@ -263,7 +263,7 @@ func (r Registration) Status() (AuthStatus, string, error) {
 	helper, sudoers, legacy := HelperPath(r.UID), SudoersPath(r.UID), LegacySudoersPath(r.UID)
 	helperOK, sudoersOK, legacyOK := r.exists(helper), r.exists(sudoers), r.exists(legacy)
 	if legacyOK && !sudoersOK {
-		return AuthNeedsRepair, "the legacy sudoers filename contains dots and is ignored by macOS; run 'teaway auth register'", nil
+		return AuthNeedsRepair, "the legacy sudoers filename contains dots and is ignored by macOS; run 'tea auth register'", nil
 	}
 	if !helperOK && !sudoersOK {
 		return AuthUnregistered, "", nil
@@ -287,7 +287,7 @@ func (r Registration) Status() (AuthStatus, string, error) {
 		return AuthNeedsRepair, "the registered helper returned an invalid version", nil
 	}
 	if fields[1] != version.Current {
-		return AuthNeedsRepair, fmt.Sprintf("helper version %s does not match teaway %s", fields[1], version.Current), nil
+		return AuthNeedsRepair, fmt.Sprintf("helper version %s does not match tea %s", fields[1], version.Current), nil
 	}
 	return AuthRegistered, fields[1], nil
 }
@@ -338,7 +338,7 @@ func validUserName(value string) bool {
 func (r Registration) sudoersContents() string {
 	prefix := fmt.Sprintf("%s ALL=(root) NOPASSWD: %s %s", r.UserName, HelperPath(r.UID), InternalCommand)
 	return strings.Join([]string{
-		fmt.Sprintf("# Managed by teaway auth register for uid %d.", r.UID),
+		fmt.Sprintf("# Managed by tea auth register for uid %d.", r.UID),
 		"# The root-owned helper validates every dynamic date and owner argument.",
 		prefix + " version",
 		prefix + " " + cmdSet + " 0",
@@ -360,13 +360,13 @@ func (r Registration) Register() (string, string, string, error) {
 	helperPath := HelperPath(r.UID)
 	sudoersPath := SudoersPath(r.UID)
 	if execPath == helperPath {
-		return "", "", "", teaerr.AuthConfig("run registration from the normal teaway executable")
+		return "", "", "", teaerr.AuthConfig("run registration from the normal tea executable")
 	}
 	info, err := os.Stat(execPath)
 	if err != nil || info.IsDir() || info.Mode()&0o111 == 0 {
-		return "", "", "", teaerr.AuthConfig("cannot resolve the current teaway executable: " + execPath)
+		return "", "", "", teaerr.AuthConfig("cannot resolve the current tea executable: " + execPath)
 	}
-	tmp, err := os.MkdirTemp("", "teaway-auth-*")
+	tmp, err := os.MkdirTemp("", "tea-auth-*")
 	if err != nil {
 		return "", "", "", err
 	}
@@ -408,7 +408,7 @@ func (r Registration) Register() (string, string, string, error) {
 		return "", "", "", teaerr.AuthConfig("the installed helper returned an invalid version")
 	}
 	if fields[1] != version.Current {
-		return "", "", "", teaerr.AuthConfig(fmt.Sprintf("the installed helper version %s does not match teaway %s", fields[1], version.Current))
+		return "", "", "", teaerr.AuthConfig(fmt.Sprintf("the installed helper version %s does not match tea %s", fields[1], version.Current))
 	}
 	return helperPath, sudoersPath, fields[1], nil
 }

@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/soundadam/teaway/cmd"
-	"github.com/soundadam/teaway/internal/privilege"
+	"github.com/soundadam/tea/cmd"
+	"github.com/soundadam/tea/internal/privilege"
 )
 
 func main() {

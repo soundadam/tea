@@ -7,14 +7,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/soundadam/teaway/internal/duration"
-	"github.com/soundadam/teaway/internal/execx"
-	"github.com/soundadam/teaway/internal/power"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/shutdown"
-	"github.com/soundadam/teaway/internal/state"
-	"github.com/soundadam/teaway/internal/teaerr"
-	"github.com/soundadam/teaway/internal/version"
+	"github.com/soundadam/tea/internal/duration"
+	"github.com/soundadam/tea/internal/execx"
+	"github.com/soundadam/tea/internal/power"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/shutdown"
+	"github.com/soundadam/tea/internal/state"
+	"github.com/soundadam/tea/internal/teaerr"
+	"github.com/soundadam/tea/internal/version"
 )
 
 type App struct {
@@ -90,9 +90,9 @@ func (a App) On() error {
 		return err
 	}
 	if rec.OriginalDisableSleep == rec.ExpectedDisableSleep {
-		a.printf("✓ Awake mode was already enabled. Teaway is now tracking it.")
+		a.printf("✓ Awake mode was already enabled. Tea is now tracking it.")
 	} else {
-		a.printf("✓ Awake mode is on. This Mac will stay awake until you run `teaway off`.")
+		a.printf("✓ Awake mode is on. This Mac will stay awake until you run `tea off`.")
 	}
 	a.printf("  Previous setting saved: disablesleep=%d", rec.OriginalDisableSleep)
 	a.printf("  Keep this Mac powered and well ventilated.")
@@ -131,7 +131,7 @@ func (a App) Status() error {
 }
 
 func (a App) printPower(status power.Status) {
-	a.printf("Teaway status")
+	a.printf("Tea status")
 	a.printf("  Awake mode: %s", powerLabel(status.Observation))
 	a.printf("  Power: %s", status.PowerSource)
 	a.printf("  Sleep setting: disablesleep=%d", status.LiveDisableSleep)
@@ -166,7 +166,7 @@ func (a App) ShutdownAfter(value string) error {
 	}
 	a.printf("✓ Shutdown scheduled for %s.", a.formatTime(committed.ScheduledAt))
 	a.printf("  Host: %s", a.Host)
-	a.printf("  Cancel it with: teaway shutdown cancel")
+	a.printf("  Cancel it with: tea shutdown cancel")
 	return nil
 }
 
@@ -222,7 +222,7 @@ func (a App) AuthStatus() error {
 		a.printf("touch id for sudo: configured")
 	case privilege.TouchIDDisabled:
 		a.printf("touch id for sudo: not configured")
-		a.printf("touch id note: macOS PAM controls this; teaway does not modify PAM")
+		a.printf("touch id note: macOS PAM controls this; tea does not modify PAM")
 	default:
 		a.printf("touch id for sudo: unknown")
 		a.printf("touch id detail: %s", touchDetail)
@@ -231,20 +231,20 @@ func (a App) AuthStatus() error {
 }
 
 func (a App) AuthRegister() error {
-	a.printf("Set up passwordless Teaway controls")
+	a.printf("Set up passwordless tea controls")
 	a.printf("  macOS will ask for your account password once.")
 	a.printf("  Password input is hidden; no characters appear while you type.")
-	a.printf("  Teaway never reads or stores your password.")
-	a.printf("  After setup, only awake-mode and teaway-owned shutdown operations run without a password.")
+	a.printf("  Tea never reads or stores your password.")
+	a.printf("  After setup, only awake-mode and tea-owned shutdown operations run without a password.")
 	helper, sudoers, ver, err := a.Auth.Register()
 	if err != nil {
 		return err
 	}
-	a.printf("✓ Passwordless Teaway controls are ready.")
+	a.printf("✓ Passwordless tea controls are ready.")
 	a.printf("  Helper version: %s", ver)
 	a.printf("  Helper: %s", helper)
 	a.printf("  Sudoers rule: %s", sudoers)
-	a.printf("  Scope: awake mode and teaway-owned shutdown operations only")
+	a.printf("  Scope: awake mode and tea-owned shutdown operations only")
 	a.printf("  This permission is available to processes running as this macOS user.")
 	return nil
 }
@@ -258,7 +258,7 @@ func (a App) AuthUnregister() error {
 }
 
 func (a App) Version() {
-	a.printf("teaway %s", version.Current)
+	a.printf("tea %s", version.Current)
 }
 
 func (a App) Snapshot() (power.Status, shutdown.Status, privilege.AuthStatus, error) {
@@ -282,13 +282,13 @@ func powerLabel(obs power.Observation) string {
 	case power.Off:
 		return "Off"
 	case power.On:
-		return "On — managed by teaway"
+		return "On — managed by tea"
 	case power.Borrowed:
-		return "On — teaway is preserving an existing setting"
+		return "On — tea is preserving an existing setting"
 	case power.External:
-		return "On — controlled outside teaway"
+		return "On — controlled outside tea"
 	case power.NeedsRecovery:
-		return "Needs recovery — run `teaway off`"
+		return "Needs recovery — run `tea off`"
 	default:
 		return "Conflict — inspect before making changes"
 	}
@@ -313,11 +313,11 @@ func shutdownLabel(obs shutdown.Observation) string {
 
 func FormatError(err error) string {
 	if typed, ok := teaerr.As(err); ok {
-		msg := "teaway: " + typed.Message
+		msg := "tea: " + typed.Message
 		if typed.Repair != "" {
 			msg += "\n" + typed.Repair
 		}
 		return msg
 	}
-	return "teaway: " + err.Error()
+	return "tea: " + err.Error()
 }

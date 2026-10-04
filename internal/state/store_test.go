@@ -34,11 +34,21 @@ func TestRoundTripAndPermissions(t *testing.T) {
 
 func TestResolveIgnoresLegacyStateEnv(t *testing.T) {
 	got := Resolve(map[string]string{
-		"HOME":               "/tmp/teaway-home",
-		"TEA_STATE_DIR":      "/tmp/legacy-tea",
+		"HOME":               "/tmp/tea-home",
+		"TEAWAY_STATE_DIR":   "/tmp/legacy-teaway",
 		"TEA_AWAY_STATE_DIR": "/tmp/legacy-tea-away",
 	})
-	if got.Directory != "/tmp/teaway-home/Library/Application Support/teaway" {
+	if got.Directory != "/tmp/tea-home/Library/Application Support/tea" {
+		t.Fatalf("Directory = %q", got.Directory)
+	}
+}
+
+func TestResolveHonorsStateDirOverride(t *testing.T) {
+	got := Resolve(map[string]string{
+		"HOME":          "/tmp/tea-home",
+		"TEA_STATE_DIR": "/tmp/tea-state",
+	})
+	if got.Directory != "/tmp/tea-state" {
 		t.Fatalf("Directory = %q", got.Directory)
 	}
 }

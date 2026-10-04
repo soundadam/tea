@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/soundadam/teaway/internal/execx"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/state"
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/execx"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/state"
+	"github.com/soundadam/tea/internal/teaerr"
 )
 
 const planLifetime = 5 * time.Minute
@@ -95,12 +95,12 @@ func (s Service) Plan(after time.Duration) (state.ShutdownRecord, error) {
 		now := s.now()
 		rec = state.ShutdownRecord{
 			ID:          s.id(),
-			Owner:       "teaway:" + s.idKeep(now),
+			Owner:       "tea:" + s.idKeep(now),
 			CreatedAt:   now,
 			ScheduledAt: now.Add(after),
 			Phase:       state.ShutdownPlanned,
 		}
-		rec.Owner = "teaway:" + rec.ID
+		rec.Owner = "tea:" + rec.ID
 		st.Shutdown = &rec
 		return s.Store.Save(st)
 	})
@@ -278,17 +278,17 @@ func (s Service) Cancel(actionID string) (state.ShutdownRecord, error) {
 		if len(owned) == 1 {
 			event := owned[0]
 			if err := s.Priv.Authorize(); err != nil {
-				return teaerr.ShutdownRecovery(current.ID, "the exact teaway event could not be cancelled: "+err.Error())
+				return teaerr.ShutdownRecovery(current.ID, "the exact tea event could not be cancelled: "+err.Error())
 			}
 			if err := s.Priv.Run(privilege.CancelShutdown(event.Date, event.Owner)); err != nil {
-				return teaerr.ShutdownRecovery(current.ID, "the exact teaway event could not be cancelled: "+err.Error())
+				return teaerr.ShutdownRecovery(current.ID, "the exact tea event could not be cancelled: "+err.Error())
 			}
 			remaining, err := s.inspect()
 			if err != nil {
 				return teaerr.ShutdownRecovery(current.ID, "cancellation returned success, but its result could not be verified: "+err.Error())
 			}
 			if len(byOwner(remaining, current.Owner)) > 0 {
-				return teaerr.ShutdownRecovery(current.ID, "macOS still reports an event with this teaway owner after cancellation")
+				return teaerr.ShutdownRecovery(current.ID, "macOS still reports an event with this tea owner after cancellation")
 			}
 		}
 		st.Shutdown = nil
@@ -342,7 +342,7 @@ func (s Service) compensate(rec state.ShutdownRecord, event Event, st *state.Fil
 		return teaerr.ShutdownRecovery(rec.ID, "automatic compensation returned success, but verification failed: "+err.Error())
 	}
 	if len(byOwner(remaining, rec.Owner)) > 0 {
-		return teaerr.ShutdownRecovery(rec.ID, "macOS still reports this teaway owner after automatic compensation")
+		return teaerr.ShutdownRecovery(rec.ID, "macOS still reports this tea owner after automatic compensation")
 	}
 	return s.resetPlan(rec, st, cause)
 }
@@ -374,7 +374,7 @@ func ParseSchedule(output string) ([]Event, error) {
 				return nil, teaerr.ShutdownUnreadable(fmt.Sprintf("unrecognized event line %d: %s", i+1, strings.TrimSpace(line)))
 			}
 			lower := strings.ToLower(line)
-			if strings.Contains(lower, "teaway:") || strings.Contains(lower, "tea-away:") {
+			if strings.Contains(lower, "tea:") || strings.Contains(lower, "tea-away:") {
 				return nil, teaerr.ShutdownConflict(strings.TrimSpace(line))
 			}
 			if regexp.MustCompile(`(?i)\bshutdown\b`).MatchString(line) && strings.TrimSpace(line) != "" {
@@ -446,5 +446,5 @@ func containsEvent(events []Event, target Event) bool {
 }
 
 func recognizedOwner(owner string) bool {
-	return strings.HasPrefix(owner, "teaway:") || strings.HasPrefix(owner, "tea-away:")
+	return strings.HasPrefix(owner, "tea:") || strings.HasPrefix(owner, "tea-away:")
 }
