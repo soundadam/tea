@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/teaerr"
 )
 
 const (

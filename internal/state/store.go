@@ -11,7 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/soundadam/teaway/internal/teaerr"
+	"github.com/soundadam/tea/internal/teaerr"
 	"golang.org/x/sys/unix"
 )
 
@@ -67,7 +67,7 @@ func (p Paths) StateFile() string { return filepath.Join(p.Directory, "state.jso
 func (p Paths) LockFile() string  { return filepath.Join(p.Directory, "state.lock") }
 
 func Resolve(env map[string]string) Paths {
-	if value := env["TEAWAY_STATE_DIR"]; value != "" {
+	if value := env["TEA_STATE_DIR"]; value != "" {
 		return Paths{Directory: value}
 	}
 	home := env["HOME"]
@@ -75,9 +75,9 @@ func Resolve(env map[string]string) Paths {
 		home, _ = os.UserHomeDir()
 	}
 	if xdg := env["XDG_STATE_HOME"]; xdg != "" {
-		return Paths{Directory: filepath.Join(xdg, "teaway")}
+		return Paths{Directory: filepath.Join(xdg, "tea")}
 	}
-	return Paths{Directory: filepath.Join(home, "Library", "Application Support", "teaway")}
+	return Paths{Directory: filepath.Join(home, "Library", "Application Support", "tea")}
 }
 
 type Store struct {
@@ -199,7 +199,7 @@ func repairHint(path string) string {
 		}
 	}
 	return fmt.Sprintf(
-		"state.json is owned by %s. This usually happens after `sudo teaway`. Do not run the user-facing CLI with sudo.\nRepair: sudo chown %s %q && sudo chmod 600 %q",
+		"state.json is owned by %s. This usually happens after `sudo tea`. Do not run the user-facing CLI with sudo.\nRepair: sudo chown %s %q && sudo chmod 600 %q",
 		owner, name, path, path,
 	)
 }

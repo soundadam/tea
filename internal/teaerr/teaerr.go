@@ -59,11 +59,11 @@ func DurationOutOfRange(minimum, maximum int) error {
 }
 
 func StateLocked() error {
-	return &Error{Kind: KindStateLocked, Message: "another teaway operation is updating state"}
+	return &Error{Kind: KindStateLocked, Message: "another tea operation is updating state"}
 }
 
 func StateCorrupt(message string) error {
-	return &Error{Kind: KindStateCorrupt, Message: "teaway state is unreadable: " + message}
+	return &Error{Kind: KindStateCorrupt, Message: "tea state is unreadable: " + message}
 }
 
 func StatePermission(path, detail, repair string) error {
@@ -71,7 +71,7 @@ func StatePermission(path, detail, repair string) error {
 		Kind:    KindStatePermission,
 		Path:    path,
 		Repair:  repair,
-		Message: fmt.Sprintf("teaway state is unreadable: %s: %s", path, detail),
+		Message: fmt.Sprintf("tea state is unreadable: %s: %s", path, detail),
 	}
 }
 
@@ -83,7 +83,7 @@ func PowerConflict(expected, actual int) error {
 	return &Error{
 		Kind: KindPowerConflict,
 		Message: fmt.Sprintf(
-			"refusing to change disablesleep because teaway expected %d but macOS reports %d; the recovery record was retained",
+			"refusing to change disablesleep because tea expected %d but macOS reports %d; the recovery record was retained",
 			expected,
 			actual,
 		),
@@ -93,7 +93,7 @@ func PowerConflict(expected, actual int) error {
 func PowerRecovery(detail string) error {
 	return &Error{
 		Kind:    KindPowerRecovery,
-		Message: "power state needs recovery; teaway retained the original disablesleep value. " + detail,
+		Message: "power state needs recovery; tea retained the original disablesleep value. " + detail,
 	}
 }
 
@@ -105,7 +105,7 @@ func ShutdownExists(id string) error {
 }
 
 func NoShutdown() error {
-	return &Error{Kind: KindNoShutdown, Message: "no teaway shutdown action is recorded"}
+	return &Error{Kind: KindNoShutdown, Message: "no tea shutdown action is recorded"}
 }
 
 func ActionIDMismatch() error {
@@ -133,7 +133,7 @@ func ShutdownUnreadable(detail string) error {
 func ShutdownVerify(id string) error {
 	return &Error{
 		Kind:    KindShutdownVerify,
-		Message: fmt.Sprintf("macOS did not report the exact teaway shutdown after scheduling action %s", id),
+		Message: fmt.Sprintf("macOS did not report the exact tea shutdown after scheduling action %s", id),
 	}
 }
 
@@ -141,7 +141,7 @@ func ShutdownRecovery(id, detail string) error {
 	return &Error{
 		Kind: KindShutdownRecovery,
 		Message: fmt.Sprintf(
-			"HIGH RISK: shutdown action %s may still be active; teaway retained its recovery record. Run 'teaway shutdown status' and then 'teaway shutdown cancel %s'. %s",
+			"HIGH RISK: shutdown action %s may still be active; tea retained its recovery record. Run 'tea shutdown status' and then 'tea shutdown cancel %s'. %s",
 			id, id, detail,
 		),
 	}
@@ -163,7 +163,7 @@ func CommandFailed(path string, status int, stderr string) error {
 func RootRefused() error {
 	return &Error{
 		Kind:    KindRootRefused,
-		Message: "do not run teaway with sudo. The user-facing CLI must run as your account so state.json stays readable. teaway will ask sudo only for the narrow pmset change.",
+		Message: "do not run tea with sudo. The user-facing CLI must run as your account so state.json stays readable. tea will ask sudo only for the narrow pmset change.",
 	}
 }
 

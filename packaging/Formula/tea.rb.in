@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Formula for the soundadam teaway macOS power-management CLI.
-class Teaway < Formula
+# Formula for the soundadam tea macOS power-management CLI.
+class Tea < Formula
   desc "Run a Mac as an always-on server with reversible sleep control"
   homepage "https://github.com/@REPOSITORY@"
   url "https://github.com/@REPOSITORY@/archive/refs/tags/v@VERSION@.tar.gz"
@@ -16,9 +16,9 @@ class Teaway < Formula
   end
 
   test do
-    assert_match "teaway #{version}", shell_output("#{bin}/teaway version")
-    assert_match "Usage:", shell_output("#{bin}/teaway help")
+    assert_match "tea #{version}", shell_output("#{bin}/tea version")
+    assert_match "Usage:", shell_output("#{bin}/tea help")
     assert_match "privileged helper must run as root",
-                 shell_output("#{bin}/teaway __teaway_privileged version 2>&1", 77)
+                 shell_output("#{bin}/tea __tea_privileged version 2>&1", 77)
   end
 end

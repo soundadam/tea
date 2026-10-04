@@ -8,8 +8,8 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/soundadam/teaway/internal/app"
-	"github.com/soundadam/teaway/internal/duration"
+	"github.com/soundadam/tea/internal/app"
+	"github.com/soundadam/tea/internal/duration"
 )
 
 // Logarithmic-ish stops inside the product bounds of 10 minutes–7 days.

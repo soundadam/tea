@@ -1,0 +1,7 @@
+# soundadam.com imports this directory as a Hugo module and renders it as
+# /projects/tea/ (Chinese at /zh/projects/tea/). The page schema is
+# www-src's .claude/rules/content-schema.md.
+[module]
+  [[module.mounts]]
+    source = "content"
+    target = "content/projects/tea"

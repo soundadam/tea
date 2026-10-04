@@ -8,9 +8,9 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
 
-	"github.com/soundadam/teaway/internal/power"
-	"github.com/soundadam/teaway/internal/privilege"
-	"github.com/soundadam/teaway/internal/shutdown"
+	"github.com/soundadam/tea/internal/power"
+	"github.com/soundadam/tea/internal/privilege"
+	"github.com/soundadam/tea/internal/shutdown"
 )
 
 func forcePreviewTerm() {

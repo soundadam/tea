@@ -1,8 +1,26 @@
 # Changelog
 
-All notable changes to `teaway` are documented here.
+All notable changes to `tea` (called `teaway` up to 0.4.2) are documented here.
 
 ## [Unreleased]
+
+## [0.5.0] - 2026-10-04
+
+### Renamed
+
+- Renamed the project from `teaway` to `tea`: the executable, Go module
+  (`github.com/soundadam/tea`), repository, and Homebrew Formula
+  (`brew install soundadam/tap/tea`; the tap migrates `teaway` installs on
+  `brew upgrade`). homebrew-core's `tea` is the unrelated Gitea CLI, so always
+  install with the full name.
+- Moved state to `~/Library/Application Support/tea` (override:
+  `TEA_STATE_DIR`), the helper to `com.soundadam.tea.helper.<uid>`, the
+  sudoers rule to `soundadam-tea-<uid>`, and new shutdown owners to `tea:`.
+  Nothing under the `teaway` name is read: run `teaway off` and
+  `teaway auth unregister` before upgrading, then `tea auth register`.
+- Moved the product page to the repository's `site/`; it is served at
+  [soundadam.com/projects/tea](https://soundadam.com/projects/tea/), and
+  `/projects/teaway/` redirects there.
 
 ### Fixed
 
@@ -17,20 +35,19 @@ All notable changes to `teaway` are documented here.
 - Published operator docs from `docs/` to [teaway.mintlify.app](https://teaway.mintlify.app).
 - Made the TUI a session client: it stays open after an action, drops the
   Refresh command, and shows only the status lines that currently matter.
-- Deprecated `teaway tui` and `teaway interactive`; no-argument `teaway` is
+- Deprecated `tea tui` and `tea interactive`; no-argument `tea` is
   the client.
-- Stopped reading `TEA_STATE_DIR`, `TEA_AWAY_STATE_DIR`, and sibling
-  `tea-away` state files. Historical `tea-away:` shutdown owners remain
-  cancellable.
+- Stopped reading `TEA_AWAY_STATE_DIR` and sibling `tea-away` state files.
+  Historical `tea-away:` shutdown owners remain cancellable.
 - Asked to set up or repair passwordless controls immediately before a
   privileged TUI action, instead of waiting for a later sudo prompt.
 - Replaced the shutdown delay text field with a stepped 10-minute-to-7-day
   picker and a custom-duration fallback.
 - Replaced the Swift CLI with a Go cobra command tree and a Charm TUI
-  (`huh` + `lipgloss`) so `teaway` with no arguments is a guided menu instead
+  (`huh` + `lipgloss`) so `tea` with no arguments is a guided menu instead
   of a numbered prompt.
 - Refused to run the user-facing CLI as root, and explained how to reclaim a
-  `state.json` that became unreadable after `sudo teaway`.
+  `state.json` that became unreadable after `sudo tea`.
 
 ## [0.4.2] - 2026-08-19
 

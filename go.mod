@@ -1,4 +1,4 @@
-module github.com/soundadam/teaway
+module github.com/soundadam/tea
 
 go 1.24.0
 

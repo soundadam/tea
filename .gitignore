@@ -1,7 +1,7 @@
 /dist/
 /.build/
 /.mintlify/
-/teaway
+/tea
 /bin/
 /tests/test-tea.zsh
 /tests/fixtures/

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/soundadam/teaway/internal/tui"
+	"github.com/soundadam/tea/internal/tui"
 )
 
 func main() {

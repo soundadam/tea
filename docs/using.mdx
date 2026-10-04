@@ -1,13 +1,13 @@
 ---
-title: "Using teaway"
-description: "Open the client with `teaway`. Same actions exist as commands for scripts."
+title: "Using tea"
+description: "Open the client with `tea`. Same actions exist as commands for scripts."
 ---
 
 <Frame>
-  <img src="/images/client.png" alt="The teaway client" />
+  <img src="/images/client.png" alt="The tea client" />
 </Frame>
 
-Run `teaway`. That's it. The menu stays open across actions.
+Run `tea`. That's it. The menu stays open across actions.
 
 Passwordless setup is optional. The client asks before the first privileged change; macOS handles the hidden password prompt. Only do this on an account you trust.
 
@@ -15,19 +15,19 @@ Passwordless setup is optional. The client asks before the first privileged chan
   <img src="/images/shutdown.png" alt="Schedule a shutdown" />
 </Frame>
 
-After `brew upgrade teaway`, open the client. If the helper is stale, it offers repair.
+After `brew upgrade tea`, open the client. If the helper is stale, it offers repair.
 
 ## Scripts
 
 | Command | Effect |
 | --- | --- |
-| `teaway on` | Keep this Mac awake |
-| `teaway off` | Restore the sleep setting teaway owns |
-| `teaway status` | Print awake, power, and shutdown state |
-| `teaway shutdown after 2h` | One shutdown (`m` / `h` / `d`, 10 minutes–7 days) |
-| `teaway shutdown cancel` | Cancel only that event |
-| `teaway auth register` | Install the narrow passwordless helper |
-| `teaway auth unregister` | Remove it |
-| `teaway version` | Print the version |
+| `tea on` | Keep this Mac awake |
+| `tea off` | Restore the sleep setting tea owns |
+| `tea status` | Print awake, power, and shutdown state |
+| `tea shutdown after 2h` | One shutdown (`m` / `h` / `d`, 10 minutes–7 days) |
+| `tea shutdown cancel` | Cancel only that event |
+| `tea auth register` | Install the narrow passwordless helper |
+| `tea auth unregister` | Remove it |
+| `tea version` | Print the version |
 
-`teaway status` and `teaway auth status` never ask for a password.
+`tea status` and `tea auth status` never ask for a password.

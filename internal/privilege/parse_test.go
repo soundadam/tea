@@ -21,8 +21,8 @@ func TestValidOwnerAndDate(t *testing.T) {
 	if validDate("11/14/2023 22:13:20") {
 		t.Fatal("four-digit year should be rejected before normalize")
 	}
-	if !validOwner("teaway:abc-1", false) {
-		t.Fatal("expected teaway owner")
+	if !validOwner("tea:abc-1", false) {
+		t.Fatal("expected tea owner")
 	}
 	if validOwner("tea-away:abc-1", false) {
 		t.Fatal("legacy owner should require allowLegacy")

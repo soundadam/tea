@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/soundadam/teaway/internal/version"
+	"github.com/soundadam/tea/internal/version"
 )
 
 func TestVersionCommand(t *testing.T) {
@@ -18,7 +18,7 @@ func TestVersionCommand(t *testing.T) {
 		t.Fatal(err)
 	}
 	got := strings.TrimSpace(buf.String())
-	want := "teaway " + version.Current
+	want := "tea " + version.Current
 	if got != want {
 		t.Fatalf("got %q want %q", got, want)
 	}
