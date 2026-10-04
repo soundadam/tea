@@ -5,14 +5,14 @@ ROOT="${0:A:h:h}"
 VERSION="${1:-}"
 PRODUCT="tea"
 BUNDLE_ID="com.soundadam.tea.cli"
-EXPECTED_TEAM_ID="${TEA_EXPECTED_TEAM_ID:-${TEA_EXPECTED_TEAM_ID:-D8UV6MLRN7}}"
+EXPECTED_TEAM_ID="${TEA_EXPECTED_TEAM_ID:-D8UV6MLRN7}"
 
 if [[ ! "$VERSION" =~ '^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$' ]]; then
     print -u2 "usage: $0 VERSION"
     exit 2
 fi
 
-identity="${TEA_CODESIGN_IDENTITY:-${TEA_CODESIGN_IDENTITY:-}}"
+identity="${TEA_CODESIGN_IDENTITY:-}"
 if [[ -z "$identity" ]]; then
     identities=("${(@f)$(/usr/bin/security find-identity -v -p codesigning | /usr/bin/awk -F\" '/Apple Development:/ {print $2}')}" )
     identities=("${(@)identities:#}")
