@@ -2,7 +2,7 @@
 
 All notable changes to `tea` (called `teaway` up to 0.4.2) are documented here.
 
-## [Unreleased]
+## [0.6.0] - 2026-10-11
 
 ### Distribution
 
