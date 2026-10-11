@@ -7,7 +7,9 @@ weight: 10
 presentation:
   category: macOS / CLI
   label: Install with Homebrew
-  command: brew install --cask soundadam/tap/tea
+  command:
+    - brew trust --tap soundadam/tap
+    - brew install --cask soundadam/tap/tea
   note: No daemon. No account. No telemetry.
 registry:
   github: soundadam/tea

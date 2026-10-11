@@ -13,6 +13,7 @@
 </p>
 
 ```sh
+brew trust --tap soundadam/tap
 brew install --cask soundadam/tap/tea
 tea
 ```
@@ -50,7 +51,8 @@ macOS 13+. Don't close a MacBook in a bag.
 
 ## Install and update
 
-- Homebrew: `brew install --cask soundadam/tap/tea`.
+- Homebrew: `brew trust --tap soundadam/tap`, then
+  `brew install --cask soundadam/tap/tea`.
 - Direct download: `tea-<version>-macos-aarch64.tar.gz` (Apple silicon) or
   `-macos-x86_64.tar.gz` (Intel) from
   [Releases](https://github.com/soundadam/tea/releases); put `tea` on your `PATH`.
