@@ -14,7 +14,7 @@ registry:
   homebrew: soundadam/tap/tea
   docs: https://teaway.mintlify.app
 release:
-  version: "0.5.0"
+  version: "0.6.0"
   license: MIT
 modules:
   - type: promo

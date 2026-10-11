@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# The release workflow fills in @VERSION@ and the SHA-256 values and writes the result to
+# The release workflow fills in the version and SHA-256 values and writes the result to
 # Casks/tea.rb in soundadam/homebrew-tap.
 cask "tea" do
   arch arm: "aarch64", intel: "x86_64"
