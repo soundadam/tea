@@ -14,7 +14,6 @@ import (
 	"github.com/soundadam/tea/internal/shutdown"
 	"github.com/soundadam/tea/internal/state"
 	"github.com/soundadam/tea/internal/teaerr"
-	"github.com/soundadam/tea/internal/version"
 )
 
 type App struct {
@@ -255,10 +254,6 @@ func (a App) AuthUnregister() error {
 	}
 	a.printf("authorization: unregistered")
 	return nil
-}
-
-func (a App) Version() {
-	a.printf("tea %s", version.Current)
 }
 
 func (a App) Snapshot() (power.Status, shutdown.Status, privilege.AuthStatus, error) {

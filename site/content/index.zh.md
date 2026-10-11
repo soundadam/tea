@@ -7,7 +7,7 @@ weight: 10
 presentation:
   category: macOS / CLI
   label: 用 Homebrew 安装
-  command: brew install soundadam/tap/tea
+  command: brew install --cask soundadam/tap/tea
   note: 没有守护进程，没有账号，没有遥测。
 registry:
   github: soundadam/tea
@@ -19,7 +19,7 @@ release:
 modules:
   - type: promo
     description: 让 Mac 保持唤醒——合着盖子、插不插电、不用开着终端都行——结束时只把自己改过的睡眠设置恢复原值。
-    line: "{title} {version} 是 {license} 开源的 macOS 命令行客户端，支持 macOS 13 及以上，由 Homebrew 从带标签的源码构建。"
+    line: "{title} {version} 是 {license} 开源的 macOS 命令行客户端，支持 macOS 13 及以上，发布为 Apple 芯片与 Intel 的 ad-hoc 签名可执行文件。"
     actions:
       - label: 文档
         url: "{docs}"

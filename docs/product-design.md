@@ -40,15 +40,13 @@ CLI useful across many server and workstation setups.
 
 ## Naming contract
 
-The publisher is `soundadam`; the repository, Homebrew Formula, Go module,
+The publisher is `soundadam`; the repository, Homebrew Cask, Go module,
 and executable are `tea`. homebrew-core already has a `tea` Formula (the Gitea
 CLI, whose executable is also `tea`), so every install instruction uses the
-fully qualified `brew install soundadam/tap/tea`, never a bare
+fully qualified `brew install --cask soundadam/tap/tea`, never a bare
 `brew install tea`. Installing both puts two `tea` executables on `PATH`.
 
-The project was called `teaway` up to 0.4.2. The tap renames the Formula
-(`formula_renames.json`), so `brew upgrade` moves an existing install to `tea`.
-0.5.0 does not read `teaway` state, helper, or sudoers paths: run `teaway off`
+The project was called `teaway` up to 0.4.2. 0.5.0 does not read `teaway` state, helper, or sudoers paths: run `teaway off`
 and `teaway auth unregister` before upgrading.
 
 The retired `tea-away` name is accepted only where an exact historical shutdown
@@ -82,6 +80,7 @@ tea auth status
 tea auth register
 tea auth unregister
 
+tea update [--check]
 tea version
 tea help
 ```

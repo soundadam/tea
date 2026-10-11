@@ -1,79 +1,41 @@
 ---
 title: "Release readiness"
-description: "Evidence and procedure for a tea source-tag release."
+description: "What a tea release publishes and what to check before tagging."
 hidden: true
 ---
 
 # Release readiness
 
-## Release target
+## What a release is
 
-Version 0.5.0 renames the project from `teaway` to `tea`: executable, Go
-module, repository, Homebrew Formula (renamed in the tap so `brew upgrade`
-migrates), state, helper and sudoers paths, and shutdown owners. The public artifact is an
-immutable source tag; the Homebrew Formula builds the executable from that
-source. No unnotarized prebuilt binary is published.
+Pushing a `v<version>` tag runs [`release.yml`](../.github/workflows/release.yml):
 
-## Required evidence
+- it tests, then builds `tea-<version>-macos-aarch64.tar.gz` and
+  `tea-<version>-macos-x86_64.tar.gz` with [`scripts/package.sh`](../scripts/package.sh)
+  (ad-hoc signed executable, README, LICENSE, NOTICE, THIRD_PARTY_NOTICES);
+- it checks that the packaged executable reports `tea <version>`;
+- it creates the GitHub Release with the archives attached, notes taken from the
+  `CHANGELOG.md` section for that version;
+- for a tag without `-`, it writes [`packaging/homebrew/tea.rb`](../packaging/homebrew/tea.rb),
+  filled with the version and both SHA-256 values, to `Casks/tea.rb` in
+  `soundadam/homebrew-tap`. Tags with `-` are prereleases and leave the tap alone.
 
-### Product and documentation
+The version exists only in the tag. Naming, update behaviour, and the Cask
+conventions are the [appkit](https://github.com/soundadam/appkit) contract.
+Releases are immutable: a broken release is fixed by a new version.
 
-- README explains the server-oriented use case, the `tea` client, safety
-  limits, and the boundary between power control and workload/remote-access
-  management.
-- Public operator docs live on Mintlify (home, using, safety, security).
-  Product-design and release-readiness stay off the public sidebar.
-  SECURITY.md remains the vulnerability-reporting entrypoint.
-- Repository description and topics cover macOS, headless operation, homelab,
-  self-hosting, sleep prevention, Go, and Homebrew without claiming network
-  or workload features.
-- Version strings, changelog, release notes, tag, and Formula all equal 0.5.0.
+## Before tagging
 
-### Native behavior
-
-- No argument opens the guided menu; `status` is the explicit read-only status command.
-- `on` captures, applies, and verifies the exact reversible awake state on
-  battery or AC power.
-- `off` restores only native-owned state and leaves external state unchanged.
-- Default authorization preserves the sudo credential timestamp.
-- Registered authorization grants only the allowlisted helper operations.
-- Shutdown scheduling uses bounded durations, exact system verification, and
-  compensating cancellation.
-- macOS 26 four-digit schedule output is normalized to the canonical tuple.
-- Failure and recovery paths retain enough state to fail closed.
-
-### Validation
-
-- All Go tests pass on the release source tree.
-- A release build reports `tea 0.5.0`.
-- The hidden helper rejects non-root direct execution.
-- GitHub Actions passes for both push and pull-request events on a hosted macOS
-  runner with read-only token permissions.
+- `CHANGELOG.md` has a `## [<version>]` section (the workflow refuses a release
+  tag without one).
+- `main` CI is green, including the packaging smoke test.
 - Real hardware verifies repeated `on`/`off`, external-state preservation,
-  shutdown commit/status/cancel, and final restoration to `disablesleep=0`.
-- The final machine state has no `tea` shutdown event.
+  shutdown commit/status/cancel, and final restoration to `disablesleep=0`,
+  with no `tea` shutdown event left.
 
-### Distribution
+## After the release
 
-- The annotated `v0.5.0` tag points to the merged and CI-tested main commit.
-- The GitHub release describes the authorization trust decision and the need to
-  refresh a stale helper after upgrades.
-- The source archive SHA-256 is calculated after the tag is published.
-- The personal tap Formula uses the immutable tag, exact checksum, MIT license,
-  macOS 13 minimum, and read-only tests.
-- A clean Homebrew source build and Formula test pass.
-
-## Release procedure
-
-1. Update the release branch to version 0.5.0 and complete the documentation.
-2. Run local tests, release build, security invariants, and documentation checks.
-3. Push the branch and require successful pull-request CI.
-4. Merge the pull request into `main` and verify main CI.
-5. Create and push one annotated `v0.5.0` tag.
-6. Publish GitHub release notes for the tag.
-7. Download the tag archive and calculate its SHA-256.
-8. Update, audit, source-install, and test the `soundadam/homebrew-tap` Formula.
-9. Refresh the locally registered helper and verify the final safe state.
-
-Never publish an Apple Development-signed archive as a public binary. A future
-prebuilt release requires Developer ID Application signing and notarization.
+- `brew update && brew upgrade --cask soundadam/tap/tea` installs the new
+  version, and `tea version` reports it.
+- `tea auth register` refreshes the local helper; `tea auth status` reports it
+  registered at the new version.

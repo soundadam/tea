@@ -13,7 +13,7 @@ go build -o tea .
 ./tea version
 ```
 
-macOS 13+ and Go 1.24+. Tests must intercept privileged operations; CI never changes runner power settings.
+macOS 13+ and Go 1.25+ (it fetches the toolchain pinned in `go.mod`). A plain build reports `tea dev`; `scripts/package.sh VERSION` builds the release archives into `dist/`. Tests must intercept privileged operations; CI never changes runner power settings.
 
 Preview the docs site with `mint dev` from `docs/`. Client screenshots: `scripts/capture-client.sh` (needs [freeze](https://github.com/charmbracelet/freeze)).
 

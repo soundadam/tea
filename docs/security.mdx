@@ -5,7 +5,7 @@ description: "What tea can do on your Mac, and how to report a problem."
 
 tea never reads your password. When macOS asks, that prompt belongs to macOS.
 
-There is no daemon, listener, account, or telemetry. Privileged work is a fixed `/usr/bin/pmset` call.
+There is no daemon, listener, account, or telemetry. Privileged work is a fixed `/usr/bin/pmset` call. The only network requests are the release check against `api.github.com` (at most daily, and on `tea update`) and the download you ask for; details in [appkit](https://github.com/soundadam/appkit#更新).
 
 ## Passwordless helper
 
@@ -20,9 +20,9 @@ That rule covers `disablesleep` `0`/`1`, one tea shutdown, and cancelling that e
   Any process running as your user can then perform those operations. Skip this on a shared account.
 </Warning>
 
-`brew upgrade` does not silently replace the helper. The client offers repair when versions diverge.
+Updating tea (`tea update` or `brew upgrade`) does not replace the helper. The client offers repair when versions diverge.
 
-Homebrew builds from the GitHub source tag.
+Releases are built from the version tag by the repository's release workflow. The executables are ad-hoc signed, not notarized. `tea update` on a downloaded copy checks the archive against the SHA-256 GitHub records for it; the Cask pins the same checksums.
 
 ## Report a vulnerability
 

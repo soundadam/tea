@@ -13,7 +13,7 @@
 </p>
 
 ```sh
-brew install soundadam/tap/tea
+brew install --cask soundadam/tap/tea
 tea
 ```
 
@@ -47,5 +47,26 @@ up to 0.4.2. homebrew-core's `tea` is the unrelated Gitea CLI, so always install
 with the full name `soundadam/tap/tea`.
 
 macOS 13+. Don't close a MacBook in a bag.
+
+## Install and update
+
+- Homebrew: `brew install --cask soundadam/tap/tea`.
+- Direct download: `tea-<version>-macos-aarch64.tar.gz` (Apple silicon) or
+  `-macos-x86_64.tar.gz` (Intel) from
+  [Releases](https://github.com/soundadam/tea/releases); put `tea` on your `PATH`.
+
+The executable is ad-hoc signed and not notarized. The Homebrew install opens
+without a prompt. A downloaded copy is blocked the first time it runs: allow it
+under System Settings → Privacy & Security, or run
+`xattr -dr com.apple.quarantine <the unpacked tea>`.
+
+`tea update` installs the latest release (`tea update --check` only reports
+it): a Homebrew install upgrades through `brew`, a downloaded `tea` replaces
+itself. The client shows a line when a newer release exists and updates on `u`.
+How the install is detected and which requests are made:
+[appkit](https://github.com/soundadam/appkit#更新).
+
+After an update, `tea auth register` refreshes the passwordless helper; until
+then, privileged actions go through `sudo`.
 
 [Product](https://soundadam.com/projects/tea/) · [Docs](https://teaway.mintlify.app) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)

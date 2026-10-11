@@ -15,7 +15,7 @@ Passwordless setup is optional. The client asks before the first privileged chan
   <img src="/images/shutdown.png" alt="Schedule a shutdown" />
 </Frame>
 
-After `brew upgrade tea`, open the client. If the helper is stale, it offers repair.
+When a newer release exists, the client shows a line under the menu; press `u` to update. After an update, open the client. If the helper is stale, it offers repair.
 
 ## Scripts
 
@@ -28,6 +28,7 @@ After `brew upgrade tea`, open the client. If the helper is stale, it offers rep
 | `tea shutdown cancel` | Cancel only that event |
 | `tea auth register` | Install the narrow passwordless helper |
 | `tea auth unregister` | Remove it |
+| `tea update` | Install the latest release (`--check` only reports it) |
 | `tea version` | Print the version |
 
 `tea status` and `tea auth status` never ask for a password.

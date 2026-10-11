@@ -4,6 +4,21 @@ All notable changes to `tea` (called `teaway` up to 0.4.2) are documented here.
 
 ## [Unreleased]
 
+### Distribution
+
+- Released as prebuilt, ad-hoc signed macOS executables
+  (`tea-<version>-macos-aarch64.tar.gz`, `tea-<version>-macos-x86_64.tar.gz`)
+  on GitHub Releases, and as the Homebrew Cask
+  `brew install --cask soundadam/tap/tea` in place of the source-built
+  Formula. A downloaded copy needs Gatekeeper approval on first run; the Cask
+  clears quarantine on install.
+- Added `tea update` and `tea update --check`, `tea --version`, an update line
+  in the client (`u` installs), and a one-line notice after commands when a
+  newer release exists. These follow the shared
+  [appkit](https://github.com/soundadam/appkit) contract.
+- The version comes from the release tag; a source build without it reports
+  `tea dev` and does not update itself.
+
 ## [0.5.0] - 2026-10-04
 
 ### Renamed
