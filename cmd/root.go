@@ -4,15 +4,17 @@ import (
 	"fmt"
 	"os"
 
+	appkit "github.com/soundadam/appkit/go"
+	"github.com/soundadam/appkit/go/cli"
 	"github.com/spf13/cobra"
 
 	"github.com/soundadam/tea/internal/app"
 	"github.com/soundadam/tea/internal/teaerr"
 	"github.com/soundadam/tea/internal/tui"
-	"github.com/soundadam/tea/internal/version"
 )
 
-func NewRoot() *cobra.Command {
+// NewRoot builds the command tree; info names this build for version and update.
+func NewRoot(info appkit.App) *cobra.Command {
 	root := &cobra.Command{
 		Use:           "tea",
 		Short:         "Keep this Mac awake, then restore its previous sleep setting when you're done.",
@@ -30,7 +32,7 @@ func NewRoot() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return tui.Run(application)
+			return tui.Run(application, info)
 		},
 	}
 	root.CompletionOptions.DisableDefaultCmd = true
@@ -40,22 +42,36 @@ func NewRoot() *cobra.Command {
 		statusCmd(),
 		shutdownCmd(),
 		authCmd(),
-		tuiCmd(),
-		versionCmd(),
+		tuiCmd(info),
 	)
+	cli.AddCommands(root, info)
 	return root
 }
 
-func Execute() int {
-	root := NewRoot()
-	if err := root.Execute(); err != nil {
-		fmt.Fprintln(os.Stderr, app.FormatError(err))
-		if teaerr.IsUsage(err) {
-			return 2
-		}
-		return 1
+func Execute(info appkit.App) int {
+	root := NewRoot(info)
+	// As root the command is refused, and the update check must not create
+	// root-owned files under the user's Application Support/tea, which also
+	// holds state.json.
+	var notice *cli.Notice
+	if os.Geteuid() != 0 {
+		notice = cli.StartNotice(info)
 	}
-	return 0
+	code := 0
+	ran, err := root.ExecuteC()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, app.FormatError(err))
+		code = 1
+		if teaerr.IsUsage(err) {
+			code = 2
+		}
+	}
+	// The client has its own update line and may already have updated.
+	client := ran == nil || ran == root || ran.Name() == "tui"
+	if notice != nil && !client {
+		notice.Print(os.Stderr)
+	}
+	return code
 }
 
 func withApp(fn func(app.App, []string) error) func(*cobra.Command, []string) error {
@@ -80,8 +96,8 @@ func statusCmd() *cobra.Command {
 	return &cobra.Command{Use: "status", Short: "Show awake mode, power source, and shutdown state", Args: cobra.NoArgs, RunE: withApp(func(a app.App, _ []string) error { return a.Status() })}
 }
 
-func tuiCmd() *cobra.Command {
-	run := withApp(func(a app.App, _ []string) error { return tui.Run(a) })
+func tuiCmd(info appkit.App) *cobra.Command {
+	run := withApp(func(a app.App, _ []string) error { return tui.Run(a, info) })
 	return &cobra.Command{
 		Use:        "tui",
 		Aliases:    []string{"interactive"},
@@ -91,13 +107,6 @@ func tuiCmd() *cobra.Command {
 		Args:       cobra.NoArgs,
 		RunE:       run,
 	}
-}
-
-func versionCmd() *cobra.Command {
-	return &cobra.Command{Use: "version", Short: "Print the tea version", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Fprintf(cmd.OutOrStdout(), "tea %s\n", version.Current)
-		return nil
-	}}
 }
 
 func shutdownCmd() *cobra.Command {

@@ -34,7 +34,7 @@ esac
 
 /usr/bin/mkdir -p "$ROOT/.build/release"
 ( cd "$ROOT" && /usr/bin/go test ./... )
-( cd "$ROOT" && /usr/bin/go build -o "$ROOT/.build/release/$PRODUCT" . )
+( cd "$ROOT" && /usr/bin/go build -ldflags "-X main.version=$VERSION" -o "$ROOT/.build/release/$PRODUCT" . )
 
 built_version=$("$ROOT/.build/release/$PRODUCT" version)
 if [[ "$built_version" != "$PRODUCT $VERSION" ]]; then

@@ -13,6 +13,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
+	appkit "github.com/soundadam/appkit/go"
 
 	"github.com/soundadam/tea/internal/app"
 	"github.com/soundadam/tea/internal/power"
@@ -21,7 +22,9 @@ import (
 	"github.com/soundadam/tea/internal/teaerr"
 )
 
-func Run(application app.App) error {
+// Run is the client session; info names this build for the update prompt.
+func Run(application app.App, info appkit.App) error {
+	updates := newUpdates(info)
 	for {
 		powerStatus, shutdownStatus, authStatus, err := application.Snapshot()
 		if err != nil {
@@ -36,7 +39,7 @@ func Run(application app.App) error {
 
 		action := ""
 		form := newMenuForm(powerStatus, shutdownStatus, authStatus, application.TimeZone, &action)
-		if err := runForm(application, form); err != nil {
+		if err := runMenu(application, form, updates); err != nil {
 			return ignoreAbort(err)
 		}
 		switch action {

@@ -7,7 +7,7 @@ weight: 10
 presentation:
   category: macOS / CLI
   label: Install with Homebrew
-  command: brew install soundadam/tap/tea
+  command: brew install --cask soundadam/tap/tea
   note: No daemon. No account. No telemetry.
 registry:
   github: soundadam/tea
@@ -21,7 +21,7 @@ modules:
     description: >-
       Keep a Mac awake — lid closed, on battery or AC, with no terminal left open — then restore exactly the sleep setting it changed.
     line: >-
-      {title} {version} is an {license} command-line client for macOS 13 or later, built by Homebrew from the tagged source.
+      {title} {version} is an {license} command-line client for macOS 13 or later, released as ad-hoc signed executables for Apple silicon and Intel.
     actions:
       - label: Docs
         url: "{docs}"

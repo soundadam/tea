@@ -5,21 +5,22 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/soundadam/tea/internal/version"
+	appkit "github.com/soundadam/appkit/go"
 )
 
-func TestVersionCommand(t *testing.T) {
-	root := NewRoot()
-	buf := new(bytes.Buffer)
-	root.SetOut(buf)
-	root.SetErr(buf)
-	root.SetArgs([]string{"version"})
-	if err := root.Execute(); err != nil {
-		t.Fatal(err)
-	}
-	got := strings.TrimSpace(buf.String())
-	want := "tea " + version.Current
-	if got != want {
-		t.Fatalf("got %q want %q", got, want)
+func TestVersionReportsTheBuildVersion(t *testing.T) {
+	info := appkit.App{Name: "tea", Version: "9.8.7", Repo: "owner/tea"}
+	for _, args := range [][]string{{"version"}, {"--version"}} {
+		root := NewRoot(info)
+		buf := new(bytes.Buffer)
+		root.SetOut(buf)
+		root.SetErr(buf)
+		root.SetArgs(args)
+		if err := root.Execute(); err != nil {
+			t.Fatal(err)
+		}
+		if got := strings.TrimSpace(buf.String()); got != "tea 9.8.7" {
+			t.Fatalf("%v: got %q", args, got)
+		}
 	}
 }

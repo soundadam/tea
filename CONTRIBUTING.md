@@ -5,7 +5,8 @@ power control, exact shutdown ownership, and no hidden control plane.
 
 ## Development setup
 
-Requirements are macOS 13 or later and Go 1.24 or later.
+Requirements are macOS 13 or later and Go 1.25 or later; the `toolchain` line in
+`go.mod` selects the compiler.
 
 ```sh
 git clone https://github.com/soundadam/tea.git
