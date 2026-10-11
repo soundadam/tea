@@ -80,7 +80,7 @@ tea auth status
 tea auth register
 tea auth unregister
 
-tea update [--check]
+tea update [--check | --auto on|off]
 tea version
 tea help
 ```

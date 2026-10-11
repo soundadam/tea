@@ -63,6 +63,7 @@ under System Settings → Privacy & Security, or run
 `tea update` installs the latest release (`tea update --check` only reports
 it): a Homebrew install upgrades through `brew`, a downloaded `tea` replaces
 itself. The client shows a line when a newer release exists and updates on `u`.
+`tea update --auto off` stops the daily check (`on` turns it back on).
 How the install is detected and which requests are made:
 [appkit](https://github.com/soundadam/appkit#更新).
 

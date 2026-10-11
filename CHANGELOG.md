@@ -12,7 +12,7 @@ All notable changes to `tea` (called `teaway` up to 0.4.2) are documented here.
   `brew install --cask soundadam/tap/tea` in place of the source-built
   Formula. A downloaded copy needs Gatekeeper approval on first run; the Cask
   clears quarantine on install.
-- Added `tea update` and `tea update --check`, `tea --version`, an update line
+- Added `tea update`, `tea update --check`, `tea update --auto on|off`, `tea --version`, an update line
   in the client (`u` installs), and a one-line notice after commands when a
   newer release exists. These follow the shared
   [appkit](https://github.com/soundadam/appkit) contract.

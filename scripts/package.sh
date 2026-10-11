@@ -26,12 +26,6 @@ third_party_notices() {
         for f in "$dir"/LICENSE* "$dir"/LICENCE* "$dir"/COPYING* "$dir"/NOTICE* "$dir"/PATENTS*; do
             [[ -f $f ]] && files+=("$f")
         done
-        if ((${#files[@]} == 0)) && [[ $module == github.com/soundadam/* ]]; then
-            # soundadam's own modules carry their licenses at the repository root, outside the Go module
-            printf '\n==== %s\n\nSame author as tea; licensed as stated in https://%s\n' \
-                "$module" "$(cut -d/ -f1-3 <<<"$module")"
-            continue
-        fi
         if ((${#files[@]} == 0)); then
             echo "no license file in $module ($dir)" >&2
             return 1
