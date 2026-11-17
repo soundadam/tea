@@ -2,7 +2,7 @@
 title: tea
 aliases:
   - /projects/teaway/
-excerpt: 合上盖子也让 Mac 保持唤醒，用完把睡眠设置原样还回去。
+excerpt: 合盖时让 Mac 保持唤醒，结束后恢复原来的睡眠设置。
 weight: 10
 presentation:
   category: macOS / CLI
@@ -20,7 +20,7 @@ release:
   license: MIT
 modules:
   - type: promo
-    description: 让 Mac 保持唤醒——合着盖子、插不插电、不用开着终端都行——结束时只把自己改过的睡眠设置恢复原值。
+    description: 让 Mac 保持唤醒：合盖、用电池、不开终端都可以。结束时只恢复它改过的那一项睡眠设置。
     line: "{title} {version} 是 {license} 开源的 macOS 命令行客户端，支持 macOS 13 及以上，发布为 Apple 芯片与 Intel 的 ad-hoc 签名可执行文件。"
     actions:
       - label: 文档
@@ -31,7 +31,7 @@ modules:
   - type: snapshot
     title: 为什么不用 caffeinate
     body: macOS 自带 `caffeinate`，人坐在电脑前时它够用。但它只在自己的进程活着时阻止睡眠：关掉终端、SSH 断线，Mac 就可能睡过去；MacBook 合上盖子也照样睡。{title} 改的是系统的 `disablesleep` 设置，合盖照常运行，也不需要任何进程一直开着。改之前先记下原值，`off` 只恢复这个值，不动别的。
-    note: 名字的由来：tea 是茶，对应 caffeinate 的咖啡因。0.4.2 及以前叫 teaway。
+    note: 0.4.2 及以前叫 teaway。
     metrics:
       - value: 合盖
         label: 照常唤醒，电池或电源都行
