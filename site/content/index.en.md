@@ -17,11 +17,11 @@ registry:
   docs: https://teaway.mintlify.app
 release:
   version: "0.6.0"
-  license: MIT
+  license: Apache-2.0
 modules:
   - type: promo
     description: >-
-      Keep a Mac awake — lid closed, on battery or AC, with no terminal left open — then restore exactly the sleep setting it changed.
+      Keeps a Mac awake with the lid closed, on battery or AC, with no terminal open. When you stop, it restores the one sleep setting it changed.
     line: >-
       {title} {version} is an {license} command-line client for macOS 13 or later, released as ad-hoc signed executables for Apple silicon and Intel.
     actions:
@@ -35,7 +35,7 @@ modules:
     body: >-
       macOS ships `caffeinate`, and it is the right tool while you sit at the Mac. It holds a sleep assertion only as long as its own process lives: close the terminal or drop the SSH session and the Mac may sleep. And closing a MacBook's lid still sleeps it. {title} switches the system's `disablesleep` setting instead, so the Mac stays up with the lid closed and nothing needs to keep running. Before changing it, {title} records the old value; `off` restores that value and nothing else.
     note: >-
-      Why the name: tea, as opposed to caffeinate's caffeine. It was called teaway up to 0.4.2.
+      Called teaway up to 0.4.2.
     metrics:
       - value: Lid closed
         label: Stays awake, battery or AC
