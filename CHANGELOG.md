@@ -4,8 +4,7 @@ All notable changes to `tea` (called `teaway` up to 0.4.2) are documented here.
 
 ## Unreleased
 
-- Licensed under Apache-2.0 (see `LICENSE` and `NOTICE`). 0.6.0 and earlier
-  releases stay under the MIT License they shipped with.
+- Licensed under Apache-2.0 (see `LICENSE` and `NOTICE`).
 
 ## [0.6.0] - 2026-10-11
 
