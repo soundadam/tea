@@ -17,7 +17,7 @@ registry:
   docs: https://teaway.mintlify.app
 release:
   version: "0.6.0"
-  license: Apache-2.0
+  license: MIT
 modules:
   - type: promo
     description: 让 Mac 保持唤醒：合盖、用电池、不开终端都可以。结束时只恢复它改过的那一项睡眠设置。
