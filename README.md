@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/soundadam/tea/actions/workflows/ci.yml"><img src="https://github.com/soundadam/tea/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/soundadam/tea/releases/latest"><img src="https://img.shields.io/github/v/release/soundadam/tea" alt="Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="Apache-2.0"></a>
 </p>
 
 <p align="center"><strong>Keep a Mac awake. Restore it when you're done.</strong></p>
