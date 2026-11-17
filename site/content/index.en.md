@@ -17,7 +17,7 @@ registry:
   docs: https://teaway.mintlify.app
 release:
   version: "0.6.0"
-  license: MIT
+  license: Apache-2.0
 modules:
   - type: promo
     description: >-
